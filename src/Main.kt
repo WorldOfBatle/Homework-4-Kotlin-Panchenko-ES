@@ -9,12 +9,14 @@ fun main() {
     while (true) {
         println()
         println("1 - Добавить книгу")
+        println("3 - Найти книгу по названию")
         println("4 - Показать каталог")
         println("0 - Выйти")
         print("Ваш выбор: ")
 
         when (scanner.nextLine().trim()) {
             "1" -> addBook(books, scanner)
+            "3" -> findBooks(books, scanner)
             "4" -> printCatalog(books)
             "0" -> {
                 println("Работа программы завершена")
@@ -36,6 +38,34 @@ private fun addBook(books: MutableList<Book>, scanner: Scanner) {
 
     println("Книга «${book.title}» добавлена в библиотеку")
     println("Всего книг: ${books.size}")
+}
+
+private fun findBooks(books: MutableList<Book>, scanner: Scanner) {
+    if (books.isEmpty()) {
+        println("В библиотеке пока нет книг.")
+        return
+    }
+
+    val query = readNotEmptyString(
+        scanner,
+        "Введите название книги или его часть: "
+    )
+
+    val foundBooks = books.filter { book ->
+        book.title.contains(query, ignoreCase = true)
+    }
+
+    if (foundBooks.isEmpty()) {
+        println("Книги по запросу «$query» не найдены.")
+    } else {
+        println()
+        println("Найдено книг: ${foundBooks.size}")
+
+        foundBooks.forEach { book ->
+            printBook(book)
+            println()
+        }
+    }
 }
 
 private fun printCatalog(books: MutableList<Book>) {
