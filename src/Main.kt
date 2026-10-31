@@ -9,16 +9,18 @@ fun main() {
     while (true) {
         println()
         println("1 - Добавить книгу")
+        println("4 - Показать каталог")
         println("0 - Выйти")
         print("Ваш выбор: ")
 
         when (scanner.nextLine().trim()) {
             "1" -> addBook(books, scanner)
+            "4" -> printCatalog(books)
             "0" -> {
                 println("Работа программы завершена")
                 return
             }
-            else -> println("Выберите пункт меню: 1 или 0.")
+            else -> println("Выберите один из пунктов меню.")
         }
     }
 }
@@ -34,6 +36,30 @@ private fun addBook(books: MutableList<Book>, scanner: Scanner) {
 
     println("Книга «${book.title}» добавлена в библиотеку")
     println("Всего книг: ${books.size}")
+}
+
+private fun printCatalog(books: MutableList<Book>) {
+    books.run {
+        if (isEmpty()) {
+            println("В библиотеке пока нет книг.")
+        } else {
+            println()
+            println("Каталог книг")
+
+            forEach { book ->
+                printBook(book)
+                println()
+            }
+
+            println("Всего книг: $size")
+        }
+    }
+}
+
+private fun printBook(book: Book) {
+    println("Название: ${book.title}")
+    println("Автор: ${book.author}")
+    println("Рейтинг: ${book.rating}")
 }
 
 private fun readNotEmptyString(scanner: Scanner, prompt: String): String {
