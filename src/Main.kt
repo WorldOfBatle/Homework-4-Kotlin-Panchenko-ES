@@ -12,6 +12,7 @@ fun main() {
         println("2 - Удалить книгу")
         println("3 - Найти книгу по названию")
         println("4 - Показать каталог")
+        println("5 - Показать средний рейтинг")
         println("0 - Выйти")
         print("Ваш выбор: ")
 
@@ -20,6 +21,7 @@ fun main() {
             "2" -> removeBook(books, scanner)
             "3" -> findBooks(books, scanner)
             "4" -> printCatalog(books)
+            "5" -> printAverageRating(books)
             "0" -> {
                 println("Работа программы завершена")
                 return
@@ -112,6 +114,25 @@ private fun printCatalog(books: MutableList<Book>) {
             println("Всего книг: $size")
         }
     }
+}
+
+private fun printAverageRating(books: MutableList<Book>) {
+    if (books.isEmpty()) {
+        println("В библиотеке пока нет книг. Средний рейтинг не определён.")
+        return
+    }
+
+    val averageRating = with(books) {
+        var totalRating = 0.0
+
+        forEach { book ->
+            totalRating += book.rating
+        }
+
+        totalRating / size
+    }
+
+    println("Средний рейтинг книг: %.2f".format(averageRating))
 }
 
 private fun printBook(book: Book) {
